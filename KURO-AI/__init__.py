@@ -1,6 +1,16 @@
 #AL things imported
 from config import * 
 from pyrogram import Client, filters 
+import os 
+import sys 
+import logging
+
+# LOGGING
+logging.basicConfig(
+  format="[KuroAI-Beta] %(name)s - %(levelname)s - %(message)s",
+  handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+  level=logging.INFO,
+)
 
 #IF USER DON'T GET ANY OF THESE THINGS IN ENVIRONNEMENT
 if not (API_ID, API_HASH, TOKEN):
