@@ -9,7 +9,6 @@ from KuroAI.KUROMAIN.OWNER_WORKS import *
 
 
 if __name__=="__main__":
-	KuroAI.run()
-	with KuroAI:
-		KuroAI.send_message(chat_id=6239769036, text="I AM ON MASTER") 
-												text="BOT STARTED MASTER") 
+    KuroAI.run()
+
+	
