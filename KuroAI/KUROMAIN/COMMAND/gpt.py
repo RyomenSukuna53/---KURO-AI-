@@ -7,7 +7,7 @@ from KuroAI import HANDLERS
 from datetime import datetime
 import json
 from KuroAI.KUROMAIN.HELPERS import KuroCore
-from KuroAI.KUROMAIN.HELPERS.auth import * 
+from KuroAI.KUROMAIN.HELPERS import * 
 
 
 
