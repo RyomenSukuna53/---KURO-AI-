@@ -7,6 +7,9 @@ from KuroAI import HANDLERS
 from datetime import datetime
 import json
 from KuroAI.KUROMAIN.HELPERS import KuroCore
+from KuroAI.KUROMAIN.HELPERS.auth import * 
+
+
 
 MY_VERSION = 1.0
 
@@ -16,7 +19,18 @@ async def chatgpt(_: Client, message: Message):
         return await message.reply_text("Please provide a query.")
     query = " ".join(message.command[1:]) or '?'
     mquery = False
-    if message.reply_to_message:
+
+    if not await check_authorized(client, user):
+        await message.reply(
+            "**Need Authorization to use this bot.**\n\nJoin both group & channel and try again.",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("ʝσιη ¢нαηηєℓ", url=f"https://t.me/{SUPPORT_CHANNEL}")],
+                [InlineKeyboardButton("ʝσιη gяσυρ", url=f"https://t.me/{SUPPORT_CHAT}")]
+            ])
+        )
+        return
+    
+    elif message.reply_to_message:
         rname = message.reply_to_message.from_user.first_name
         is_bot = message.reply_to_message.from_user.is_bot
         urname = message.from_user.first_name
