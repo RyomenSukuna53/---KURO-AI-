@@ -8,7 +8,7 @@ import traceback
 from subprocess import getoutput as run
 from pyrogram.enums import ChatAction
 
-@bot.on_message(filters.command(["logs", "log"], prefixes=HANDLER))
+@bot.on_message(filters.command(["logs", "log"], prefixes=HANDLERS))
 async def logs(_, message):
     if message.from_user.id == OWNER_ID or message.from_user.id in SUDO_USERS_ID:
         print("")
