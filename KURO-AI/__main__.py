@@ -2,7 +2,7 @@
 from pyrogram import Client, filters 
 from KURO-MAIN import * 
 import asyncio 
-from KuroAI import *
+from KURO-AI import *
 
 
 if __name__=="__main__":
