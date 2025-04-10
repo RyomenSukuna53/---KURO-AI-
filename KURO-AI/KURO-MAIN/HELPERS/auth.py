@@ -1,5 +1,5 @@
-from KuroAI import KuroAI as bot
-from KuroAI import *
+from KUROAI import KuroAI as bot
+from KUROAI import *
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
