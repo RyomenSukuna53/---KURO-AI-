@@ -3,8 +3,11 @@ from pyrogram.enums import ParseMode
 from KuroAI import KuroAI as bot
 from KuroAI.KURO-MAIN.HELPERS.auth import *
 import asyncio
+from config import *
 
-@bot.on_message(filters.command(["authorize", "auth"], prefixes=HANDLER) & filters.user(SUDO_USERS))
+
+
+@bot.on_message(filters.command(["authorize", "auth"], prefixes=HANDLER) & filters.user(OWNER_ID))
 async def authorize_user(client, message):
     if not message.reply_to_message:
         return await message.reply("Reply to a user's message to authorize them.")
