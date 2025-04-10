@@ -21,7 +21,7 @@ async def logs(_, message):
     await text.delete()
 
 
-@bot.on_message(filters.command(["flogs", "flog"], prefixes=HANDLER))
+@bot.on_message(filters.command(["flogs", "flog"], prefixes=HANDLERS))
 async def logs(_, message):
     if message.from_user.id == OWNER_ID or message.from_user.id in SUDO_USERS_ID:
         print("")
