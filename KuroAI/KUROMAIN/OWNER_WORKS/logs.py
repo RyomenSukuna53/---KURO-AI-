@@ -1,9 +1,9 @@
 import io
 from pyrogram import *
-from Sophia.__main__ import Sophia as bot
-from Sophia import HANDLER
+from KuroAI.__init__ import KuroAI as bot
+from KuroAI import HANDLERS
 from config import OWNER_ID
-from config import SUDO_USERS_ID
+from config import SUDO_USERS
 import traceback
 from subprocess import getoutput as run
 from pyrogram.enums import ChatAction
