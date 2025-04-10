@@ -1,9 +1,9 @@
-from KURO-AI import KuroAI as bot
-from KURO-AI import *
+from KuroAI import KuroAI as bot
+from KuroAI import *
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
-from KURO-AI import SUPPORT_CHAT, SUPPORT_CHANNEL
+from config import SUPPORT_CHAT, SUPPORT_CHANNEL
 
 # Mongo DB ya simple set for auth users
 authorized_users = set()
