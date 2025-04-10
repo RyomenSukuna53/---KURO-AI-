@@ -11,20 +11,16 @@ from DATABASE import auth_col, ban_col
 async def authorize_user(client, message):
     if not message.reply_to_message:
         return await message.reply("Reply to a user's message to authorize them.")
-  
+
+    user = message.reply_to_message.from_user
+    user_id = user.id
+
+    if auth_col.find_one({"_id": user_id}):
+        return await message.reply("✅ This user is already authorized.")
     
-    
-    user_id = message.reply_to_message.from_user.id
-    authorized = auth_col.find_one({"_id": user_id}) 
-     
-    if authorized:
-        await message.reply_text("YOU ARE ALREADY AUTHORIZED✅ ") 
-        return 
-    banned_user = ban_col.find_one({"_id": user_id}) 
-    if banned_user:
-        await message.replty_text(" ❌ YOU ARE NOT AUTHORIZED TO USE THIS BOT") 
-        return 
-        
+    if ban_col.find_one({"_id": user_id}):
+        return await message.reply("❌ This user is banned from using the bot.")
+
     bars = [
         "0%   [●◌◌◌◌◌◌◌◌◌]", "10%  [●◌◌◌◌◌◌◌◌◌]", "20%  [●●◌◌◌◌◌◌◌◌]",
         "30%  [●●●◌◌◌◌◌◌◌]", "40%  [●●●●◌◌◌◌◌◌]", "50%  [●●●●●◌◌◌◌◌]",
@@ -33,20 +29,15 @@ async def authorize_user(client, message):
     ]
 
     msg = await message.reply(
-        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜]==> Authorizing {user_id}...\n{bars[0]}```",
+        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Authorizing {user_id}...\n{bars[0]}```",
         parse_mode=ParseMode.MARKDOWN
     )
 
     for bar in bars[1:]:
         await asyncio.sleep(0.2)
-        await msg.edit_text(
-            f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜]==> Authorizing {user_id}...\n{bar}```",
-            parse_mode=ParseMode.MARKDOWN
-        )
+        await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Authorizing {user_id}...\n{bar}```", parse_mode=ParseMode.MARKDOWN)
 
-    auth_col.insert_one({"_id": user_id}) 
-    await msg.edit_text(
-        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜]==> {user_id} Authorized✅\n{bars[-1]}```",
-        parse_mode=ParseMode.MARKDOWN
-    )
+    auth_col.insert_one({"_id": user_id})
+    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> {user_id} Authorized✅\n{bars[-1]}```", parse_mode=ParseMode.MARKDOWN)
+
 
