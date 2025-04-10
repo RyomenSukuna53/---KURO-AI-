@@ -4,10 +4,10 @@ from KuroAI import KuroAI as bot
 from KuroAI.KURO-MAIN.HELPERS.auth import *
 import asyncio
 from config import *
+from KuroAI import HANDLERS
 
 
-
-@bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLER) & filters.user(OWNER_ID))
+@bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def unauthorize_user(client, message):
     if not message.reply_to_message:
         return await message.reply("Reply to a user's message to unauthorize them.")
