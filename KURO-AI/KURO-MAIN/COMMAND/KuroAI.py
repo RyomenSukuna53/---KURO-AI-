@@ -1,12 +1,12 @@
 import aiohttp
 from pyrogram import filters, Client
 from pyrogram.types import Message
-from KuroAI.__main__ import KuroAI as app
+from KURO-AI.__init__ import KuroAI as app
 from config import OWNER_ID
-from KuroAI import HANDLERS
+from KURO-AI import HANDLERS
 from datetime import datetime
 import json
-from KuroAI.KURO-MAIN.HELPERS import KuroCore
+from KURO-AI.KURO-MAIN.HELPERS import KuroCore
 
 MY_VERSION = 1.0
 
