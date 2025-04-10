@@ -7,7 +7,7 @@ import asyncio
 import random
 from config import * 
 from KuroAI import HANDLERS
-
+from config import SUDO_USERS
 
 @bot.on_message(filters.command("start", prefixes=HANDLERS))
 async def start_command(client, message):
