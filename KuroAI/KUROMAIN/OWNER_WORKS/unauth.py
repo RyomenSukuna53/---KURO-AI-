@@ -1,3 +1,10 @@
+from KuroAI import KuroAI as bot 
+from KuroAI.KUROMAIN import DATABASE 
+from pyrogram import Client, filters
+from KuroAI.KUROMAIN import HELPERS 
+from config import *
+
+
 @bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def unauthorize_user(client, message):
     if not message.reply_to_message:
