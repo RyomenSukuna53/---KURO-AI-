@@ -3,7 +3,7 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 from KuroAI import KuroAI as app
 from config import OWNER_ID
-from KuroAI import HANDLER
+from KuroAI import HANDLERS
 from datetime import datetime
 import json
 
