@@ -8,10 +8,14 @@ import random
 from config import * 
 from KuroAI import HANDLERS
 from config import SUDO_USERS
+from KuroAI.KUROMAIN import DATABASE
+
+
 
 @bot.on_message(filters.command("start", prefixes=HANDLERS))
 async def start_command(client, message):
-    user = message.from_user.id
+    user = message.from_user
+    user_id = user.id
     bars = [
         "0%   [●◌◌◌◌◌◌◌◌◌]", "10%  [●◌◌◌◌◌◌◌◌◌]", "20%  [●●◌◌◌◌◌◌◌◌]",
         "30%  [●●●◌◌◌◌◌◌◌]", "40%  [●●●●◌◌◌◌◌◌]", "50%  [●●●●●◌◌◌◌◌]",
@@ -20,27 +24,20 @@ async def start_command(client, message):
     ]
     MBs = random.randint(5, 100)
 
-    if user == OWNER_ID:
-        await message.reply_text("WELCOME MASTER 👑 You don't need any authorization") 
-        return 
+    if user_id == OWNER_ID:
+        return await message.reply("WELCOME MASTER 👑 You don't need any authorization.")
     
-    if user in SUDO_USERS:
-        await message.reply_text(f"WELCOME MR:-[{user.first_name}](tg://user?id={user.id}) Your are admin no need auth") 
-        return
-   
-    if not await check_authorized(client, user):
-        await message.reply(
-            "**Need Authorization to use this bot.**\n\nJoin both group & channel and try again.",
+    if user_id in SUDO_USERS:
+        return await message.reply(f"WELCOME [{user.first_name}](tg://user?id={user_id}) - Admin access granted.")
+
+    if not auth_col.find_one({"_id": user_id}):
+        return await message.reply(
+            "**Authorization Required**\n\nPlease join both group and channel then try again.",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("ʝσιη ¢нαηηєℓ", url=f"https://t.me/{SUPPORT_CHANNEL}")],
-                [InlineKeyboardButton("ʝσιη gяσυρ", url=f"https://t.me/{SUPPORT_CHAT}")]
+                [InlineKeyboardButton("ʝσιи ¢нαηηєℓ", url=f"https://t.me/{SUPPORT_CHANNEL}")],
+                [InlineKeyboardButton("ʝσιи gяσυρ", url=f"https://t.me/{SUPPORT_CHAT}")]
             ])
         )
-        return
-
-    if user not in authorized_users:
-        await message.reply("You're not authorized yet. Ask admin to authorize you.")
-        return
 
     msg = await message.reply(
         f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bars[0]}\n0 / {MBs} MB```",
@@ -57,7 +54,9 @@ async def start_command(client, message):
             parse_mode=ParseMode.MARKDOWN
         )
 
-    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> \"Intialized✅\n{bars[10]}\n\nNOW YOU CAN USE ME {user}!.\"```", 
-                        parse_mode=ParseMode.MARKDOWN) 
-    
+    await msg.edit_text(
+        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initialized✅\n{bars[-1]}\n\nWelcome, {user.first_name}!```",
+        parse_mode=ParseMode.MARKDOWN
+    )
+    await users.insert_one({"_id":user_id}) 
     
