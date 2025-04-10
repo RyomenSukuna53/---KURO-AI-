@@ -33,19 +33,27 @@ async def order_completed(_, message: Message):
     await message.reply_text("✅ User has been notified about the order completion.")
 
 # Command to list all completed (approved) orders
-@bot.on_message(filters.command("allorders", prefixes=HANDLERS) & filters.user(SUDO_USERS))
-async def list_all_orders(_, message: Message):
-    orders = completed_col.find({"status": "approved"})
-    text = "**✅ Approved Orders:**\n\n"
-
+@bot.on_message(filters.command("all_orders", prefixes=HANDLERS) & filters.user(SUDO_USERS))
+async def all_orders(_, message: Message):
+    all_approved = completed_col.find({"status": "approved"})
+    text = "**✅ Completed Orders:**\n\n"
     count = 0
-    async for order in orders:
+
+    async for order in all_approved:
         count += 1
-        text += f"**{count}.** Order ID: `{order.get('order_id', 'N/A')}` | User ID: `{order['_id']}` | Name: `{order.get('order_name', 'Unknown')}`\n"
+        text += (
+            f"**#{count}**\n"
+            f"**Bot Name:** {order.get('bot_name')}\n"
+            f"**Type:** {order.get('bot_type')}\n"
+            f"**Budget:** ₹{order.get('budget')}\n"
+            f"**Extra:** {order.get('extra')}\n"
+            "----------------------\n"
+        )
 
     if count == 0:
-        await message.reply_text("No approved orders found.")
+        await message.reply("No approved orders yet.")
     else:
-        await message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
+        await message.reply(text)
+
 
 
