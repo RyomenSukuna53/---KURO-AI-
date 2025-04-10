@@ -8,6 +8,9 @@ from subprocess import getoutput as run
 from pyrogram.enums import ChatAction
 from KuroAI import KuroAI as app
 from pyrogram import filters
+from config import *
+
+
 
 prefix = [".", "!", "?", "*", "$", "#", "/"]
 
