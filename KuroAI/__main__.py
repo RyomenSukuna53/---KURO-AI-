@@ -1,8 +1,8 @@
 #MAIN FILE THAT RUN ALL BOTS COMMANDS ETC 
 from pyrogram import Client, filters 
-from KURO-MAIN import * 
+from KuroAI.KUROMAIN import * 
 import asyncio 
-from KURO-AI import *
+from KuroAI import *
 
 
 if __name__=="__main__":
