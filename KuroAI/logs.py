@@ -6,7 +6,7 @@ from datetime import datetime
 from contextlib import redirect_stdout
 from subprocess import getoutput as run
 from pyrogram.enums import ChatAction
-from KuroAK import KuroAI as app
+from KuroAI import KuroAI as app
 from pyrogram import filters
 
 prefix = [".", "!", "?", "*", "$", "#", "/"]
