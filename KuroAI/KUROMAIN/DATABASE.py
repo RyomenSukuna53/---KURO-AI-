@@ -1,14 +1,13 @@
-from motor.motor_asyncio import AsyncIOMotorClient 
-
+from motor.motor_asyncio import AsyncIOMotorClient
 
 MONGO_DB_URI = "mongodb+srv://sufyan532011:2011@Kuroai.ftifibh.mongodb.net/?retryWrites=true&w=majority&appName=KuroAI"
 
-DATABASE = AsyncIOMotorClient(MONGO_DB_URI) 
-auth_col = DATABASE["authorized_users"]
-ban_col = DATABASE["BANNED_USERS"]
-order_col = DATABASE["orders"]
-pending_col = DATABASE["PENDING_ORDERS"]
-completed_col = DATABASE["COMPLETED_ORDERS"]
+client = AsyncIOMotorClient(MONGO_DB_URI)
+db = client["KuroAI"]
 
-
-
+# Collections
+auth_col = db["authorized_users"]
+ban_col = db["BANNED_USERS"]
+order_col = db["orders"]              # All orders
+pending_col = db["PENDING_ORDERS"]    # Yet to approve
+completed_col = db["COMPLETED_ORDERS"]# Approved or rejected orders
