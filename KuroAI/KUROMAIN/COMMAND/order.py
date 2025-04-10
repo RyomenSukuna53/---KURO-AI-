@@ -130,27 +130,3 @@ async def handle_order_decision(_, query):
     await pending_col.delete_one({"user_id": user_id})
 
 
-@bot.on_message(filters.command("all_orders", prefixes=HANDLERS) & filters.user(SUDO_USERS))
-async def all_orders(_, message: Message):
-    all_approved = completed_col.find({"status": "approved"})
-    text = "**✅ Completed Orders:**\n\n"
-    count = 0
-
-    async for order in all_approved:
-        count += 1
-        text += (
-            f"**#{count}**\n"
-            f"**Bot Name:** {order.get('bot_name')}\n"
-            f"**Type:** {order.get('bot_type')}\n"
-            f"**Budget:** ₹{order.get('budget')}\n"
-            f"**Extra:** {order.get('extra')}\n"
-            "----------------------\n"
-        )
-
-    if count == 0:
-        await message.reply("No approved orders yet.")
-    else:
-        await message.reply(text)
-
-
-
