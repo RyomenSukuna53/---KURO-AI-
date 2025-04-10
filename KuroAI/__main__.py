@@ -6,7 +6,7 @@ from KuroAI import *
 from KuroAI.KUROMAIN.COMMAND import start, order
 from KuroAI.KUROMAIN.HELPERS import * 
 from KuroAI.KUROMAIN.OWNER_WORKS import auth, unauth, eval
-from KuroAI import logs
+from KuroAI import logs, gpt
 
 if __name__=="__main__":
     KuroAI.run()
