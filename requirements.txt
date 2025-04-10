@@ -4,3 +4,4 @@ tgcrypto
 requests 
 asyncio
 motor
+pymongo[srv]
