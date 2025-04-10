@@ -24,7 +24,7 @@ async def start_command(client, message):
         await message.reply_text("WELCOME MASTER 👑 You don't need any authorization") 
         return 
     
-    if user in SUDU_USERS:
+    if user in SUDO_USERS:
         await message.reply_text(f"WELCOME MR:-[{user.first_name}](tg://user?id={user.id}) Your are admin no need auth") 
         return
    
