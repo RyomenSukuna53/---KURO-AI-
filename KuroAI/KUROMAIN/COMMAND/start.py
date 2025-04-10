@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from KuroAI import KuroAI as bot
-from KuroAI.KUROMAIN.HELPERS.auth import *
+from KuroAI.KUROMAIN.HELPERS import *
 import asyncio
 import random
 from config import * 
