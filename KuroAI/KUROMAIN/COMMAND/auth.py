@@ -40,7 +40,7 @@ async def authorize_user(client, message):
     ]
 
 
-   await msg.reply("USER AUTHORIZED") 
-   return 
+    await msg.reply("USER AUTHORIZED") 
+    return 
 
 
