@@ -5,7 +5,7 @@ from KuroAI.KUROMAIN.HELPERS import *
 from config import *
 from KuroAI import HANDLERS
 import asyncio
-from DATABASE import auth_col, ban_col
+from KuroAI.KUROMAIN.DATABASE import auth_col, ban_col
 
 @bot.on_message(filters.command(["authorize", "auth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def authorize_user(client, message):
