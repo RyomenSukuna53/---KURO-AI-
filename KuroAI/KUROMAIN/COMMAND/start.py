@@ -13,6 +13,7 @@ from KuroAI.KUROMAIN.DATABASE import *
 
 @bot.on_message(filters.command("start", prefixes=HANDLERS))
 async def start_command(client, message):
+    await message.reply_text("hi")
     user = message.from_user
     user_id = user.id
     bars = [
