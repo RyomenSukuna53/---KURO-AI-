@@ -3,9 +3,9 @@ from pyrogram import Client, filters
 from KuroAI.KUROMAIN import * 
 import asyncio 
 from KuroAI import *
-from KuroAI.KUROMAIN.COMMAND import * 
+from KuroAI.KUROMAIN.COMMAND import start, KuroAI
 from KuroAI.KUROMAIN.HELPERS import * 
-from KuroAI.KUROMAIN.OWNER_WORKS import *
+from KuroAI.KUROMAIN.OWNER_WORKS import auth, unauth, logs
 
 
 if __name__=="__main__":
