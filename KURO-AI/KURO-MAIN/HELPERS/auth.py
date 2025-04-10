@@ -3,7 +3,7 @@ from KuroAI import *
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType
-from KuroAI import SUPPORT_CHAT, SUPPORT_CHANNEL
+from KUROAI import SUPPORT_CHAT, SUPPORT_CHANNEL
 
 # Mongo DB ya simple set for auth users
 authorized_users = set()
