@@ -25,6 +25,6 @@ KuroAI = Client(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=TOKEN,
-    plugins=dict(root="KuroAI/KUROMAIN") 
+    plugins=dict(root="KuroAI/KUROMAIN/COMMAND") 
   
 )
