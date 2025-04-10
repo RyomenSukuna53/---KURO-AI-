@@ -23,12 +23,6 @@ async def start_command(client, message):
     ]
     MBs = random.randint(5, 100)
 
-    if user_id == OWNER_ID:
-        return await message.reply("WELCOME MASTER 👑 You don't need any authorization.")
-    
-    if user_id in SUDO_USERS:
-        return await message.reply(f"WELCOME [{user.first_name}](tg://user?id={user_id}) - Admin access granted.")
-
     if not auth_col.find_one({"_id": user_id}):
         return await message.reply(
             "**Authorization Required**\n\nPlease join both group and channel then try again.",
@@ -38,8 +32,7 @@ async def start_command(client, message):
             ])
         )
 
-    msg = await message.reply(
-        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bars[0]}\n0 / {MBs} MB```",
+    msg = await message.reply(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bars[0]}\n0 / {MBs} MB```",
         parse_mode=ParseMode.MARKDOWN
     )
 
@@ -48,13 +41,11 @@ async def start_command(client, message):
         percent = int((mb / MBs) * 100)
         bar_index = min(percent // 10, 10)
         bar = bars[bar_index]
-        await msg.edit_text(
-            f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bar}\n{mb} / {MBs} MB```",
+        await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bar}\n{mb} / {MBs} MB```",
             parse_mode=ParseMode.MARKDOWN
         )
 
-    await msg.edit_text(
-        f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initialized✅\n{bars[-1]}\n\nWelcome, {user.first_name}!```",
+    await msg.edit_text(f"```shell\n\"[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initialized✅\n{bars[-1]}\n\nWelcome, {user.first_name}!\"```",
         parse_mode=ParseMode.MARKDOWN
     )
     await users.insert_one({"_id":user_id}) 
