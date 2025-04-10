@@ -6,10 +6,10 @@ from KuroAI.KURO-MAIN.HELPERS.auth import *
 import asyncio
 import random
 from config import * 
+from KuroAI import HANDLERS
 
 
-
-@bot.on_message(filters.command("start", prefixes=HANDLER))
+@bot.on_message(filters.command("start", prefixes=HANDLERS))
 async def start_command(client, message):
     user = message.from_user.id
     bars = [
