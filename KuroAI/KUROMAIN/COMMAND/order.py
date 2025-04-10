@@ -2,25 +2,25 @@ from pyrogram import filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from KuroAI import KuroAI as bot
 from config import OWNER_ID, SUDO_USERS
-from KuroAI.KUROMAIN.DATABASE import order_col, pending_col, completed_col, auth_col# your imported mongo cols
-from KuroAI import HANDLERS 
+from KuroAI.KUROMAIN.DATABASE import order_col, pending_col, completed_col, auth_col
+from KuroAI import HANDLERS
 import random
-from pyrogram.emums import ChatType, ParseMode
+from pyrogram.enums import ParseMode
 user_states = {}
 
 @bot.on_message(filters.command("order", prefixes=HANDLERS))
 async def start_order(_, message: Message):
     user_id = message.from_user.id
-    auth_user = auth_col.find_one({"_id": user_id}) 
+    auth_user = await auth_col.find_one({"_id": user_id})
 
     if not auth_user:
-      await message.reply_text("❌NOT AUTHORIZED ") 
-      return 
-  
+        await message.reply_text("❌ You are not authorized to place an order.")
+        return
+
     user_states[user_id] = {"step": "name", "user_id": user_id}
     await message.reply("Enter your bot name:")
 
-@bot.on_message(filters.text)
+@bot.on_message(filters.text & ~filters.command(["order"], prefixes=HANDLERS))
 async def handle_order_step(_, message: Message):
     user_id = message.from_user.id
     if user_id not in user_states:
@@ -87,12 +87,9 @@ async def handle_order_step(_, message: Message):
                         InlineKeyboardButton("✅ Approve", callback_data=f"approve_{user_id}"),
                         InlineKeyboardButton("❌ Reject", callback_data=f"reject_{user_id}")
                     ]
-                ]), 
+                ]),
                 parse_mode=ParseMode.MARKDOWN
             )
-
-
-
 
             del user_states[user_id]
 
@@ -100,30 +97,60 @@ async def handle_order_step(_, message: Message):
             del user_states[user_id]
             await message.reply("❌ Order cancelled.")
 
-
 @bot.on_callback_query(filters.regex(r"^(approve|reject)_(\d+)$") & filters.user(SUDO_USERS))
 async def handle_order_decision(_, query):
     action, user_id = query.data.split("_")
     user_id = int(user_id)
-    order_id = random.randint(1000, 5000) 
+    order_id = random.randint(1000, 9999)
+
     order = await pending_col.find_one({"user_id": user_id})
     if not order:
-        await query.message.edit_text("Order not found or already handled.")
+        await query.message.edit_text("❗ Order not found or already processed.")
         return
 
     if action == "approve":
-        await completed_col.insert_one({**order, "status": "approved", "order_id": order_id})
+        completed_data = {
+            "_id": user_id,
+            "status": "approved",
+            "order_id": order_id,
+            "bot_name": order["bot_name"],
+            "bot_type": order["bot_type"],
+            "budget": order["budget"],
+            "extra": order["extra"]
+        }
+        await completed_col.insert_one(completed_data)
         await bot.send_message(user_id, "✅ Your bot order has been **approved!** We'll contact you soon.")
-        await query.message.edit_text("Order approved.")
+        await query.message.edit_text("✅ Order approved.")
+
     elif action == "reject":
-        await completed_col.insert_one({**order, "status": "rejected"})
+        await completed_col.insert_one({"_id": user_id, "status": "rejected"})
         await bot.send_message(user_id, "❌ Your bot order has been **rejected.** Contact admin for more info.")
-        await query.message.edit_text("Order rejected.")
+        await query.message.edit_text("❌ Order rejected.")
 
     await pending_col.delete_one({"user_id": user_id})
-  
 
 
+@bot.on_message(filters.command("all_orders", prefixes=HANDLERS) & filters.user(SUDO_USERS))
+async def all_orders(_, message: Message):
+    all_approved = completed_col.find({"status": "approved"})
+    text = "**✅ Completed Orders:**\n\n"
+    count = 0
+
+    async for order in all_approved:
+        count += 1
+        text += (
+            f"**#{count}**\n"
+            f"**Bot Name:** {order.get('bot_name')}\n"
+            f"**Type:** {order.get('bot_type')}\n"
+            f"**Budget:** ₹{order.get('budget')}\n"
+            f"**Extra:** {order.get('extra')}\n"
+            "----------------------\n"
+        )
+
+    if count == 0:
+        await message.reply("No approved orders yet.")
+    else:
+        await message.reply(text)
 
 
 
