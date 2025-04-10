@@ -12,6 +12,9 @@ logging.basicConfig(
   level=logging.INFO,
 )
 
+HANDLERS = [".", "!", "/", "#", "$", "%", "&", "*", "?"]
+
+
 #IF USER DON'T GET ANY OF THESE THINGS IN ENVIRONNEMENT
 if not (API_ID, API_HASH, TOKEN):
   raise "Varaibles not found"
