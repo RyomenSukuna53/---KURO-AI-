@@ -44,3 +44,4 @@ async def start_command(client, message):
    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...✅\n{bars[10]}\nωєℓ¢σмє {message.from_user.first_name} тσ συя ∂єѕтʝηу ησω уσυ ¢αη υѕє συя αι αη∂ ¢αη gινє σя∂єяѕ тσ мαкє уσυя вσтѕ тσ. ❤```",
         parse_mode=ParseMode.MARKDOWN
     )
+
