@@ -5,7 +5,7 @@ import asyncio
 from KuroAI import *
 from KuroAI.KUROMAIN.COMMAND import start, gpt
 from KuroAI.KUROMAIN.HELPERS import * 
-from KuroAI.KUROMAIN.OWNER_WORKS import auth, unauth, logs
+from KuroAI.KUROMAIN.OWNER_WORKS import auth, unauth, logs, eval
 
 
 if __name__=="__main__":
