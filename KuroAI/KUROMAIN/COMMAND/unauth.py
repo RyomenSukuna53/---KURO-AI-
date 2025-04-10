@@ -4,6 +4,7 @@ from pyrogram import Client, filters
 from config import *
 from KuroAI import HANDLERS
 from pyrogram.enums import ParseMode 
+import asyncio
 
 
 
@@ -31,7 +32,7 @@ async def unauthorize_user(client, message):
     )
 
     for bar in bars[1:]:
-        await asyncio.sleep(0.2)
+        await asyncio.sleep(0.5)
         await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Unauthorizing {user_id}...\n{bar}```", parse_mode=ParseMode.MARKDOWN)
 
     auth_col.delete_one({"_id": user_id})
