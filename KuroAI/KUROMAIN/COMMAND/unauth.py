@@ -7,7 +7,7 @@ from pyrogram.enums import ParseMode
 
 
 
-@bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
+@bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLERS) & filters.user(OWNER_ID), group=5)
 async def unauthorize_user(client, message):
     if not message.reply_to_message:
         return await message.reply("Reply to a user's message to unauthorize them.")
