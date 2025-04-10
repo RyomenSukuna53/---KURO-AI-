@@ -3,3 +3,4 @@ aiohttp
 tgcrypto 
 requests 
 asyncio
+motor
