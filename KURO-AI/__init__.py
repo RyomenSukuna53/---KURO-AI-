@@ -21,6 +21,7 @@ if not (API_ID, API_HASH, TOKEN):
 
 #CREATING A CLIENT
 KuroAI = Client(
+  "KuroAI-COLXproMain", 
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=TOKEN,
