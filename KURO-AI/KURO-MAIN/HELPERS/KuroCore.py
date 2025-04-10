@@ -1,8 +1,13 @@
-from pyrogram import Client, filters 
-from KuroAI import KuroAI as bot 
-from KuroAI import HANDLERS
+import aiohttp
+from pyrogram import filters, Client
+from pyrogram.types import Message
+from KuroAI import KuroAI as app
+from config import OWNER_ID
+from KuroAI import HANDLER
+from datetime import datetime
+import json
 
-
+MY_VERSION = 1.0
 
 async def fetch_data(query: str, message: Message) -> str:
     try:
