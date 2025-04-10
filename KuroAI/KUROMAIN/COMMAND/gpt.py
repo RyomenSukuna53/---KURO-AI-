@@ -39,7 +39,7 @@ async def fetch_data(query: str, message: Message) -> str:
 
 
 
-@app.on_message(filters.command(["KuroAI", "RaijinAI"], prefixes=HANDLERS))
+@app.on_message(filters.command("ai", prefixes=HANDLERS))
 async def chatgpt(_: Client, message: Message):
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("Please provide a query.")
