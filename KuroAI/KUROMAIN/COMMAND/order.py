@@ -5,7 +5,7 @@ from config import OWNER_ID, SUDO_USERS
 from KuroAI.KUROMAIN.DATABASE import order_col, pending_col, completed_col, auth_col# your imported mongo cols
 from KuroAI import HANDLERS 
 import random
-
+from pyrogram.emums import ChatType, ParseMode
 user_states = {}
 
 @bot.on_message(filters.command("order", prefixes=HANDLERS))
@@ -87,7 +87,8 @@ async def handle_order_step(_, message: Message):
                         InlineKeyboardButton("✅ Approve", callback_data=f"approve_{user_id}"),
                         InlineKeyboardButton("❌ Reject", callback_data=f"reject_{user_id}")
                     ]
-                ])
+                ]), 
+                parse_mode=ParseMode.MARKDOWN
             )
 
 
