@@ -3,7 +3,6 @@ from pyrogram.enums import ParseMode
 from KuroAI import KuroAI as bot
 from KuroAI.KUROMAIN.HELPERS import *
 from config import *
-from KuroAI import HANDLERS
 import asyncio
 from KuroAI.KUROMAIN.DATABASE import auth_col, ban_col
 
