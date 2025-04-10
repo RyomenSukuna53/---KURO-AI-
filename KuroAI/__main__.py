@@ -5,7 +5,7 @@ import asyncio
 from KuroAI import *
 from KuroAI.KUROMAIN.COMMAND import * 
 from KuroAI.KUROMAIN.HELPERS import * 
-from KuroAI.KUROMAIN.COMMAND.OWNER_WORKS import *
+from KuroAI.KUROMAIN.OWNER_WORKS import *
 
 
 if __name__=="__main__":
