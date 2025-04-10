@@ -1,12 +1,12 @@
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from KURO-AI import KuroAI as bot
-from KURO-AI.KURO-MAIN.HELPERS.auth import *
+from KuroAI import KuroAI as bot
+from KuroAI.KUROMAIN.HELPERS.auth import *
 import asyncio
 import random
 from config import * 
-from KURO-AI import HANDLERS
+from KuroAI import HANDLERS
 
 
 @bot.on_message(filters.command("start", prefixes=HANDLERS))
