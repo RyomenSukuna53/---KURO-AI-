@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from KuroAI import KuroAI as bot
-from KuroAI.KUROMAIN.HELPERS.auth import *
+from KuroAI.KUROMAIN.HELPERS import *
 from config import *
 from KuroAI import HANDLERS
 import asyncio
