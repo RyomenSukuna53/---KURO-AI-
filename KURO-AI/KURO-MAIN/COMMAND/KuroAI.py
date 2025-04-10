@@ -10,7 +10,7 @@ from KuroAI.KURO-MAIN.HELPERS import KuroCore
 
 MY_VERSION = 1.0
 
-@app.on_message(filters.command(["KuroAI", "RajinAI"], prefixes=HANDLER) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["KuroAI", "RajinAI"], prefixes=HANDLERS))
 async def chatgpt(_: Client, message: Message):
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("Please provide a query.")
