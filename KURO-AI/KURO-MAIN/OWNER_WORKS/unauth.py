@@ -1,10 +1,10 @@
 from pyrogram import filters
 from pyrogram.enums import ParseMode
-from KuroAI import KuroAI as bot
-from KuroAI.KURO-MAIN.HELPERS.auth import *
+from KURO-AI import KuroAI as bot
+from KURO-AI.KURO-MAIN.HELPERS.auth import *
 import asyncio
 from config import *
-from KuroAI import HANDLERS
+from KURO-AI import HANDLERS
 
 
 @bot.on_message(filters.command(["unauthorize", "unauth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
