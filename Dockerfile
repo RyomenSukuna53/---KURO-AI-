@@ -1,6 +1,6 @@
 FROM python:3.12
 
-WORKDIR /root/KuroAI/KUROMAIN
+WORKDIR /root/KuroAI/KUROMAIN/COMMAND
 
 COPY . .
 
