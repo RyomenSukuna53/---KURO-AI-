@@ -4,7 +4,7 @@ from KuroAI import KuroAI as bot
 from config import OWNER_ID, SUDO_USERS
 from KuroAI.KUROMAIN.DATABASE import order_col, pending_col, completed_col, auth_col# your imported mongo cols
 from KuroAI import HANDLERS 
-
+import random
 
 user_states = {}
 
@@ -104,14 +104,14 @@ async def handle_order_step(_, message: Message):
 async def handle_order_decision(_, query):
     action, user_id = query.data.split("_")
     user_id = int(user_id)
-
+    order_id = random.randint(1000, 5000) 
     order = await pending_col.find_one({"user_id": user_id})
     if not order:
         await query.message.edit_text("Order not found or already handled.")
         return
 
     if action == "approve":
-        await completed_col.insert_one({**order, "status": "approved"})
+        await completed_col.insert_one({**order, "status": "approved", "order_id": order_id})
         await bot.send_message(user_id, "✅ Your bot order has been **approved!** We'll contact you soon.")
         await query.message.edit_text("Order approved.")
     elif action == "reject":
