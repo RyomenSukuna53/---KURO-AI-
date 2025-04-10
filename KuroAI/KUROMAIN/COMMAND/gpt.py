@@ -6,7 +6,7 @@ from config import OWNER_ID
 from KuroAI import HANDLERS
 from datetime import datetime
 import json 
-
+from KuroAI.KUROMAIN.DATABASE import auth_col
 
 
 MY_VERSION = 1.0
@@ -46,7 +46,7 @@ async def chatgpt(_: Client, message: Message):
     query = " ".join(message.command[1:]) or '?'
     mquery = False
 
-    if not await check_authorized(client, user):
+    if not auth_col.find_one({"_id": user_id}):
         await message.reply(
             "**Need Authorization to use this bot.**\n\nJoin both group & channel and try again.",
             reply_markup=InlineKeyboardMarkup([
