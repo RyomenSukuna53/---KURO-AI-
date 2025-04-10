@@ -6,11 +6,9 @@ import sys
 import logging
 
 # LOGGING
-logging.basicConfig(
-  format="[KuroAI-Beta] %(name)s - %(levelname)s - %(message)s",
-  handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
-  level=logging.INFO,
-)
+logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler('logs.txt'),
+                                                    logging.StreamHandler()], format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+LOGGER = logging.getLogger(__name__)
 
 HANDLERS = [".", "!", "/", "#", "$", "%", "&", "*", "?"]
 
