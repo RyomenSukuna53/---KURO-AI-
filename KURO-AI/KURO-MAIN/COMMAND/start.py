@@ -5,6 +5,9 @@ from KuroAI import KuroAI as bot
 from KuroAI.KURO-MAIN.HELPERS.auth import *
 import asyncio
 import random
+from config import * 
+
+
 
 @bot.on_message(filters.command("start", prefixes=HANDLER))
 async def start_command(client, message):
@@ -17,6 +20,14 @@ async def start_command(client, message):
     ]
     MBs = random.randint(5, 100)
 
+    if user.id == OWNER_ID:
+        await message.reply_text("WELCOME MASTER 👑 You don't need any authorization") 
+        return 
+    
+    if user.id in SUDU_USERS:
+        await message.reply_text(f"WELCOME MR:-[{user.first_name}](tg://user?id={user.id}) Your are admin no need auth") 
+        return
+   
     if not await check_authorized(client, user):
         await message.reply(
             "**Need Authorization to use this bot.**\n\nJoin both group & channel and try again.",
