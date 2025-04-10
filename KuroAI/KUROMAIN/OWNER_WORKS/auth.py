@@ -5,14 +5,26 @@ from KuroAI.KUROMAIN.HELPERS.auth import *
 from config import *
 from KuroAI import HANDLERS
 import asyncio
-
+from DATABASE import auth_col, ban_col
 
 @bot.on_message(filters.command(["authorize", "auth"], prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def authorize_user(client, message):
     if not message.reply_to_message:
         return await message.reply("Reply to a user's message to authorize them.")
+  
+    
     
     user_id = message.reply_to_message.from_user.id
+    authorized = auth_col.find_one({"_id": user_id}) 
+     
+    if authorized:
+        await message.reply_text("YOU ARE ALREADY AUTHORIZED✅ ") 
+        return 
+    banned_user = ban_col.find_one({"_id": user_id}) 
+    if banned_user:
+        await message.replty_text(" ❌ YOU ARE NOT AUTHORIZED TO USE THIS BOT") 
+        return 
+        
     bars = [
         "0%   [●◌◌◌◌◌◌◌◌◌]", "10%  [●◌◌◌◌◌◌◌◌◌]", "20%  [●●◌◌◌◌◌◌◌◌]",
         "30%  [●●●◌◌◌◌◌◌◌]", "40%  [●●●●◌◌◌◌◌◌]", "50%  [●●●●●◌◌◌◌◌]",
@@ -32,7 +44,7 @@ async def authorize_user(client, message):
             parse_mode=ParseMode.MARKDOWN
         )
 
-    authorized_users.add(user_id)
+    auth_col.insert_one({"_id": user_id}) 
     await msg.edit_text(
         f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜]==> {user_id} Authorized✅\n{bars[-1]}```",
         parse_mode=ParseMode.MARKDOWN
