@@ -16,7 +16,7 @@ async def unauthorize_user(client, message):
     user = message.reply_to_message.from_user
     user_id = user.id
 
-    if not auth_col.find_one({"_id": user_id}):
+    if not await auth_col.find_one({"_id": user_id}):
         return await message.reply("❌ This user is not authorized yet.")
 
     bars = [
@@ -35,7 +35,7 @@ async def unauthorize_user(client, message):
         await asyncio.sleep(0.5)
         await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Unauthorizing {user_id}...\n{bar}```", parse_mode=ParseMode.MARKDOWN)
 
-    auth_col.delete_one({"_id": user_id})
+    await auth_col.delete_one({"_id": user_id})
     await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> {user_id} UnAuthorized✅\n{bars[-1]}```", parse_mode=ParseMode.MARKDOWN)
 
 
