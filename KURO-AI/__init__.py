@@ -20,9 +20,9 @@ if not (API_ID, API_HASH, TOKEN):
   raise "Varaibles not found"
 
 #CREATING A CLIENT
-KuroAI = Client(api_id=API_ID, 
-                api_hash=API_HASH, 
-                bot_token=TOKEN, 
-                plugins=dict("/KURO-AI/KURO-MAIN/COMMAND")
-               ) 
-
+KuroAI = Client(
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    plugins={"root": "/KURO-AI/KURO-MAIN/COMMAND"}
+)
