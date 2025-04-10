@@ -20,11 +20,11 @@ async def start_command(client, message):
     ]
     MBs = random.randint(5, 100)
 
-    if user.id == OWNER_ID:
+    if user == OWNER_ID:
         await message.reply_text("WELCOME MASTER 👑 You don't need any authorization") 
         return 
     
-    if user.id in SUDU_USERS:
+    if user in SUDU_USERS:
         await message.reply_text(f"WELCOME MR:-[{user.first_name}](tg://user?id={user.id}) Your are admin no need auth") 
         return
    
@@ -57,7 +57,7 @@ async def start_command(client, message):
             parse_mode=ParseMode.MARKDOWN
         )
 
-    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> \"Intialized✅\n{bars[10]}\n\nNOW YOU CAN USE ME MASTER!.\"```", 
+    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> \"Intialized✅\n{bars[10]}\n\nNOW YOU CAN USE ME {user}!.\"```", 
                         parse_mode=ParseMode.MARKDOWN) 
     
     
