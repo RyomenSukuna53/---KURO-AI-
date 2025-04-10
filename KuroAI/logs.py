@@ -6,15 +6,13 @@ from datetime import datetime
 from contextlib import redirect_stdout
 from subprocess import getoutput as run
 from pyrogram.enums import ChatAction
-from KuroAI import KuroAI as app
+from KuroAK import KuroAI as app
 from pyrogram import filters
-from config import OWNER_ID
 
 prefix = [".", "!", "?", "*", "$", "#", "/"]
- # Add your developer IDs here
 
 
-@app.on_message(filters.command("sh", prefix) & filters.user(OWNER_ID))
+@app.on_message(filters.command("sh", prefix) & filters.user(SUDO_USERS))
 async def sh(_, message):
     """
     Execute shell commands and return the output.
@@ -25,7 +23,7 @@ async def sh(_, message):
     code = message.text.split(None, 1)[1]
     try:
         x = run(code)
-        string = f"**📎 Input**: ````{code}````\n\n**📒 Output**:\n````{x}````"
+        string = f"**📎 Input**: `{code}`\n\n**📒 Output**:\n`{x}`"
         await message.reply_text(string)
     except Exception as e:
         error_text = f"Error executing shell command:\n{e}"
@@ -45,7 +43,7 @@ async def aexec(code, client, message):
     return await locals()["__aexec"](client, message)
 
 
-@app.on_message(filters.command("eval", prefix) & filters.user(OWNER_ID))
+@app.on_message(filters.command("eval", prefix) & filters.user(SUDO_USERS))
 async def eval(client, message):
     """
     Evaluate Python code dynamically.
@@ -79,8 +77,8 @@ async def eval(client, message):
     ping = (end - start).microseconds / 1000
 
     final_output = (
-        f"📎 **Input:**\n````{cmd}````\n\n"
-        f"📒 **Output:**\n```{evaluation.strip()}```\n\n"
+        f"📎 **Input:**\n`{cmd}`\n\n"
+        f"📒 **Output:**\n`{evaluation.strip()}`\n\n"
         f"✨ **Taken Time:** {ping}ms"
     )
     if len(final_output) > 4096:
@@ -91,19 +89,19 @@ async def eval(client, message):
         await status_message.edit_text(final_output)
 
 
-@app.on_message(filters.command(["log", "logs"], prefix) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["log", "logs"], prefix) & filters.user(SUDO_USERS))
 async def logs(app, message):
     """
     Fetch the latest logs from the log file.
     """
     try:
         run_logs = run("tail -n 20 logs.txt")  # Fetch the last 20 lines of logs
-        await message.reply_text(f"📒 **Latest Logs:**\n```python\n\n{run_logs}```")
+        await message.reply_text(f"📒 **Latest Logs:**\n`{run_logs}`")
     except Exception as e:
-        await message.reply_text(f"Error fetching logs:\n````{e}````")
+        await message.reply_text(f"Error fetching logs:\n`{e}`")
 
 
-@app.on_message(filters.command(["flogs", "flog"], prefix) & filters.user(OWNER_ID))
+@app.on_message(filters.command(["flogs", "flog"], prefix) & filters.user(SUDO_USERS))
 async def flogs(app, message):
     """
     Fetch and send the full log file as a document.
@@ -117,7 +115,7 @@ async def flogs(app, message):
             await message.reply_document(document=logs, caption="Full Logs")
         await text.delete()
     except Exception as e:
-        await message.reply_text(f"Error fetching full logs:\n````{e}````")
+        await message.reply_text(f"Error fetching full logs:\n`{e}`")
 
 
 
