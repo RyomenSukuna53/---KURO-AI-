@@ -7,6 +7,7 @@ db = client["KuroAI"]
 
 # Collections
 auth_col = db["authorized_users"]
+users = db["USERS"]
 ban_col = db["BANNED_USERS"]
 order_col = db["orders"]              # All orders
 pending_col = db["PENDING_ORDERS"]    # Yet to approve
