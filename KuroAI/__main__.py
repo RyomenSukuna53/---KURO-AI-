@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from KuroAI.KUROMAIN import * 
 import asyncio 
 from KuroAI import *
-from KurooAI import logs, gpt
+from KuroAI import logs, gpt
 
 if __name__=="__main__":
     KuroAI.run()
