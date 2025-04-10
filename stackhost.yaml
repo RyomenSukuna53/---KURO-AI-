@@ -14,7 +14,7 @@ commands:
     - "libffi-dev"
     - "gcc"
   start:
-    - "python3 -m KuroAI"
+    - "python3 -m KURO-AI"
 
 env:
   - "ENVIRONMENT=production"
