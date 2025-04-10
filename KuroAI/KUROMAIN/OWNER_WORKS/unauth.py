@@ -1,5 +1,5 @@
 from KuroAI import KuroAI as bot 
-from KuroAI.KUROMAIN import DATABASE 
+from KuroAI.KUROMAIN.DATABASE import auth_col
 from pyrogram import Client, filters
 from KuroAI.KUROMAIN import HELPERS 
 from config import *
