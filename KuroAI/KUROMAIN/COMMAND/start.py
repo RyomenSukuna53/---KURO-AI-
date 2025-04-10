@@ -8,7 +8,7 @@ import random
 from config import * 
 from KuroAI import HANDLERS
 from config import SUDO_USERS
-from KuroAI.KUROMAIN import DATABASE
+from KuroAI.KUROMAIN.DATABASE import *
 
 
 
