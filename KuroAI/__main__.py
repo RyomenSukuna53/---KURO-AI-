@@ -4,6 +4,11 @@ from KuroAI.KUROMAIN import *
 import asyncio 
 from KuroAI import *
 from KuroAI import logs, gpt
+from KuroAI.KUROMAIN.COMMAND import *
+
+
+
+
 
 if __name__=="__main__":
     KuroAI.run()
