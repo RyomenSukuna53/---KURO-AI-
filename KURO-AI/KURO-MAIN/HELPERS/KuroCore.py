@@ -1,9 +1,9 @@
 import aiohttp
 from pyrogram import filters, Client
 from pyrogram.types import Message
-from KUROAI import KuroAI as app
+from KURO-AI import KuroAI as app
 from config import OWNER_ID
-from KUROAI import HANDLER
+from KURO-AI import HANDLER
 from datetime import datetime
 import json
 
