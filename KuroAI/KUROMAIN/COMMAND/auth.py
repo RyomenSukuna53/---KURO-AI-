@@ -21,12 +21,9 @@ async def authorize_user(client, message):
     user = message.reply_to_message.from_user
     user_id = user.id
 
-    if auth_col.find_one({"_id": user_id}):
+    if await auth_col.find_one({"_id": user_id}):
         return await message.reply("✅ This user is already authorized.")
     
-    if ban_col.find_one({"_id": user_id}):
-        return await message.reply("❌ This user is banned from using the bot.")
-
     bars = [
         "0%   [●◌◌◌◌◌◌◌◌◌]", "10%  [●◌◌◌◌◌◌◌◌◌]", "20%  [●●◌◌◌◌◌◌◌◌]",
         "30%  [●●●◌◌◌◌◌◌◌]", "40%  [●●●●◌◌◌◌◌◌]", "50%  [●●●●●◌◌◌◌◌]",
@@ -44,7 +41,7 @@ async def authorize_user(client, message):
         await asyncio.sleep(0.5)
         await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Authorizing {user_id}...\n{bar}```", parse_mode=ParseMode.MARKDOWN)
 
-    auth_col.insert_one({"_id": user_id})
+    await auth_col.insert_one({"_id": user_id})
     await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> {user_id} Authorized✅\n{bars[-1]}```", parse_mode=ParseMode.MARKDOWN)
 
 
