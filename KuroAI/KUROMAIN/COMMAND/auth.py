@@ -38,13 +38,13 @@ async def authorize_user(client, message):
     for bar in progress_bars[1:]:
         await asyncio.sleep(0.8)
         await msg.edit_text(
-            f"```bash\n[ KURO-AI SYSTEM ] :: Authorizing User: {user.first_name}\n{bar}```",
+            f"```bash\n[𝗞𝗨𝗥𝗢 𝗔𝗜] :: Authorizing User: {user.first_name}\n{bar}```",
             parse_mode=ParseMode.MARKDOWN
         )
 
     await auth_col.insert_one({"_id": user_id})
     await msg.edit_text(
-        f"```bash\n[ KURO-AI SYSTEM ] :: ✅ Authorization Complete!\nUser: {user.first_name} ({user_id})\n{progress_bars[-1]}```",
+        f"```bash\n[𝗞𝗨𝗥𝗢 𝗔𝗜] :: ✅ Authorization Complete!\nUser: {user.first_name} ({user_id})\n{progress_bars[-1]}```",
         parse_mode=ParseMode.MARKDOWN
     )
 
