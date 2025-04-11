@@ -12,11 +12,17 @@ user_states = {}
 async def start_order(_, message: Message):
     user_id = message.from_user.id
     auth_user = await auth_col.find_one({"_id": user_id})
-
+    pending = await completed_col.find_one({"_id": user_id}) 
+    
     if not auth_user:
         await message.reply_text("❌ You are not authorized to place an order.")
         return
 
+    if pending:
+        await message.reply_text("SAX 🎷🎷🎷\nYOU CAN ONLY PLACE ONE ORDER AT A TIME\nWAIT UNTIL IT'S COMPLETDD") 
+        return 
+    
+    
     user_states[user_id] = {"step": "name", "user_id": user_id}
     await message.reply("Enter your bot name:")
 
