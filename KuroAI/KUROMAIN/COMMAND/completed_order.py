@@ -31,6 +31,9 @@ async def order_completed(_, message: Message):
     )
 
     await message.reply_text("✅ User has been notified about the order completion.")
+    await completed_col.delete_one({"_id": user_id}) 
+    print("work completdd user_id delted") 
+
 
 # Command to list all completed (approved) orders
 @bot.on_message(filters.command("all_orders", prefixes=HANDLERS) & filters.user(SUDO_USERS))
