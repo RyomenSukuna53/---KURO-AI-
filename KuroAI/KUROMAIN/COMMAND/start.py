@@ -32,16 +32,20 @@ async def start_command(client, message):
             ])
         )
 
-    msg = await message.reply(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\n{bars[0]}\n```",
-        parse_mode=ParseMode.MARKDOWN
-    )
-    for bar in bars:
-        await asyncio.sleep(0.5) 
-        await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...\nUSER==>{user_id}\n{bar}\n```",
-        parse_mode=ParseMode.MARKDOWN
-                           )
+    start_msg = ">✨ 𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 ✨\n\n"  
+    f"Welcome To The  𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 [𝙲𝙾𝙻-𝙓•忍者] {message.from_user.first_name}\n\n"
+    "Your Smart Order + AI Bot is Here!\n\n"
+    "🔹 Use /order – Place your custom order in seconds\n"  
+    "🔹 Use /track – Track your order status anytime\n" 
+    "🔹 Use /ai – Ask anything, get instant AI-powered replies\n" 
+    "🔹 Use /help – Explore all features\n\n"  
+    ">⚡ Fast. Smart. Legendary.\n\n"
+    ">Made for Legends, by Legends.\n\n"
+    ">If you have any query or need guide click the button below❤‍🔥❤‍🔥❤‍🔥"
 
-    await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Initializing...✅\nUSER==>{user_id}\n{bars[10]}\nωєℓ¢σмє {message.from_user.first_name} тσ συя ∂єѕтʝηу ησω уσυ ¢αη υѕє συя αι αη∂ ¢αη gινє σя∂єяѕ тσ мαкє уσυя вσтѕ тσ. ❤```",
-                        parse_mode=ParseMode.MARKDOWN
-    )
-
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("gυι∂є📕", url="https://t.me/RaijinCodes_Ultra")]
+    ]) 
+    
+    else:
+        await message.reply_text(start_msg, reply_markup=keyboard) 
