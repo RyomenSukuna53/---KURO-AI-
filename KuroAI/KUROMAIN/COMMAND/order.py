@@ -6,27 +6,27 @@ from KuroAI.KUROMAIN.DATABASE import order_col, pending_col, completed_col, auth
 from KuroAI import HANDLERS
 import random
 from pyrogram.enums import ParseMode
+
 user_states = {}
 
-@bot.on_message(filters.command("order", prefixes=HANDLERS))
+@bot.on_message(filters.command("order", prefixes=HANDLERS) & filters.private)
 async def start_order(_, message: Message):
     user_id = message.from_user.id
     auth_user = await auth_col.find_one({"_id": user_id})
-    pending = await completed_col.find_one({"_id": user_id}) 
-    
+    pending = await completed_col.find_one({"_id": user_id})
+
     if not auth_user:
         await message.reply_text("❌ You are not authorized to place an order.")
         return
 
     if pending:
-        await message.reply_text("SAX 🎷🎷🎷\nYOU CAN ONLY PLACE ONE ORDER AT A TIME\nWAIT UNTIL IT'S COMPLETDD") 
-        return 
-    
-    
+        await message.reply_text("SAX 🎷🎷🎷\nYOU CAN ONLY PLACE ONE ORDER AT A TIME\nWAIT UNTIL IT'S COMPLETED.")
+        return
+
     user_states[user_id] = {"step": "name", "user_id": user_id}
     await message.reply("Enter your bot name:")
 
-@bot.on_message(filters.text & ~filters.command(["order"], prefixes=HANDLERS))
+@bot.on_message(filters.text & filters.private & ~filters.command(["order"], prefixes=HANDLERS))
 async def handle_order_step(_, message: Message):
     user_id = message.from_user.id
     if user_id not in user_states:
@@ -41,13 +41,31 @@ async def handle_order_step(_, message: Message):
 
     elif state["step"] == "type":
         state["bot_type"] = message.text
+        state["step"] = "function"
+        await message.reply("What is the main function of your bot?")
+
+    elif state["step"] == "function":
+        state["bot_function"] = message.text
+        state["step"] = "commands"
+        await message.reply("What commands do you want in your bot?\n(Send a list or comma-separated)")
+
+    elif state["step"] == "commands":
+        state["bot_commands"] = message.text
         state["step"] = "budget"
         await message.reply("Enter your budget in ₹:")
 
     elif state["step"] == "budget":
-        state["budget"] = message.text
-        state["step"] = "extra"
-        await message.reply("Any extra info? Send `/skip` to skip.")
+        try:
+            budget = int(message.text)
+            if budget < 100:
+                await message.reply("❌ WE CAN'T TAKE ORDERS BELOW ₹100. TRY AGAIN.")
+                return
+            state["budget"] = budget
+            state["step"] = "extra"
+            await message.reply("Any extra info? Send `/skip` to skip.")
+        except ValueError:
+            await message.reply("❌ Please enter a valid number for the budget.")
+            return
 
     elif state["step"] == "extra":
         state["extra"] = message.text if message.text != "/skip" else "None"
@@ -57,6 +75,8 @@ async def handle_order_step(_, message: Message):
             f"**Please confirm your order:**\n\n"
             f"**Bot Name:** {state['bot_name']}\n"
             f"**Bot Type:** {state['bot_type']}\n"
+            f"**Function:** {state['bot_function']}\n"
+            f"**Commands:** {state['bot_commands']}\n"
             f"**Budget:** ₹{state['budget']}\n"
             f"**Extra Info:** {state['extra']}\n\n"
             "**Type `confirm` to send or `cancel` to discard.**"
@@ -70,6 +90,8 @@ async def handle_order_step(_, message: Message):
                 "username": message.from_user.username,
                 "bot_name": state['bot_name'],
                 "bot_type": state['bot_type'],
+                "bot_function": state['bot_function'],
+                "bot_commands": state['bot_commands'],
                 "budget": state['budget'],
                 "extra": state['extra'],
                 "status": "pending"
@@ -86,6 +108,8 @@ async def handle_order_step(_, message: Message):
                 f"👤 User: [{message.from_user.first_name}](tg://user?id={user_id})\n"
                 f"**Bot Name:** {state['bot_name']}\n"
                 f"**Type:** {state['bot_type']}\n"
+                f"**Function:** {state['bot_function']}\n"
+                f"**Commands:** {state['bot_commands']}\n"
                 f"**Budget:** ₹{state['budget']}\n"
                 f"**Extra:** {state['extra']}",
                 reply_markup=InlineKeyboardMarkup([
@@ -121,6 +145,8 @@ async def handle_order_decision(_, query):
             "order_id": order_id,
             "bot_name": order["bot_name"],
             "bot_type": order["bot_type"],
+            "bot_function": order["bot_function"],
+            "bot_commands": order["bot_commands"],
             "budget": order["budget"],
             "extra": order["extra"]
         }
@@ -133,5 +159,6 @@ async def handle_order_decision(_, query):
         await query.message.edit_text("❌ Order rejected.")
 
     await pending_col.delete_one({"user_id": user_id})
+
 
 
