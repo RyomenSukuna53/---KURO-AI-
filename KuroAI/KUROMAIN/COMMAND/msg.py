@@ -1,44 +1,52 @@
-from KuroAI import KuroAI 
-from KuroAI import HANDLERS 
-from config import *
+from KuroAI import KuroAI, HANDLERS
+from config import SUDO_USERS
 from pyrogram import filters
-from pyrogram.enums import ChatType
-from KuroAI.KUROMAIN.DATABASE import auth_col 
+from pyrogram.enums import ParseMode
+from KuroAI.KUROMAIN.DATABASE import auth_col
 
 
-
-
-@KuroAI.on_message(filters.command("msg", prefixes=HANDLERS) & filters.private & filters.user(SUDO_USERS)) 
-async def send_msg_to_user(client, message):
-    # Check if minimum 3 parts in command: /msg <user_id> <text...>
+@KuroAI.on_message(filters.command("msg", prefixes=HANDLERS) & filters.private & filters.user(SUDO_USERS))
+async def send_msg_to_user(_, message):
     if len(message.command) < 3:
-        await message.reply_text("SAX 🎷🎷\nGIVE USER ID AND MESSAGE TEXT")
-        return
+        return await message.reply_text(
+            "❌ **Invalid Usage!**\n\n"
+            "Correct Format:\n`/msg <user_id> <your_message>`",
+            parse_mode=ParseMode.MARKDOWN
+        )
 
     reciever = message.command[1]
     query = " ".join(message.command[2:])
 
-    # Validate user_id is digit
     if not reciever.isdigit():
-        await message.reply_text("SAX 🎷🎷🎷\n THIS IS NOT A USER ID BRO 😎")
-        return
+        return await message.reply_text(
+            "⚠️ **User ID must be a number.**\nPlease enter a valid Telegram User ID.",
+            parse_mode=ParseMode.MARKDOWN
+        )
 
-    # Check length (Telegram IDs are usually 9-10 digits)
     if len(reciever) < 8:
-        await message.reply_text("SAX 🎷🎷🎷\n IS THIS REALLY A USER ID?")
-        return
+        return await message.reply_text(
+            "⚠️ **This doesn't look like a valid Telegram User ID.**",
+            parse_mode=ParseMode.MARKDOWN
+        )
 
-    # Check if user is authorized
-    authorized = await auth_col.find_one({"_id": int(reciever)})
-    if not authorized:
-        await message.reply_text("SAX 🎷🎷🎷\n THIS USER IS NOT AUTHORIZED")
-        return
+    is_verified = await auth_col.find_one({"_id": int(reciever)})
+    if not is_verified:
+        return await message.reply_text(
+            "❌ **User Not Authorized!**\nThis user is not in the authorized user list.",
+            parse_mode=ParseMode.MARKDOWN
+        )
 
-    # Send message
     try:
         await KuroAI.send_message(chat_id=int(reciever), text=query)
-        await message.reply_text("SENDED BOSS")
+        await message.reply_text(
+            f"✅ **Message sent successfully!**\n\n"
+            f"**Recipient:** `{reciever}`\n"
+            f"**Message:**\n{query}",
+            parse_mode=ParseMode.MARKDOWN
+        )
     except Exception as e:
-        await message.reply_text(f"FAILED TO SEND\n\nERROR: `{e}`")
-
-  
+        await message.reply_text(
+            f"❌ **Failed to send message!**\n\n"
+            f"**Error:** `{e}`",
+            parse_mode=ParseMode.MARKDOWN
+        )
