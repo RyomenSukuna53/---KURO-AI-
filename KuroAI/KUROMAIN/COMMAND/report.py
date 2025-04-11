@@ -5,7 +5,7 @@ from KuroAI import HANDLERS
 from KuroAI.KUROMAIN.DATABASE import auth_col
 
 @KuroAI.on_message(filters.command("report", prefixes=HANDLERS) & filters.private)
-async def report_to_admins(client, message):
+async def report_to_admins(KuroAI, message):
     user_id = message.from_user.id
     user = message.from_user
 
