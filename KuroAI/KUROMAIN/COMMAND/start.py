@@ -32,20 +32,20 @@ async def start_command(client, message):
             ])
         )
 
-    start_msg = ">✨ 𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 ✨\n\n"  
-    f"Welcome To The  𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 [𝙲𝙾𝙻-𝙓•忍者] {message.from_user.first_name}\n\n"
-    "Your Smart Order + AI Bot is Here!\n\n"
-    "🔹 Use /order – Place your custom order in seconds\n"  
-    "🔹 Use /track – Track your order status anytime\n" 
-    "🔹 Use /ai – Ask anything, get instant AI-powered replies\n" 
-    "🔹 Use /help – Explore all features\n\n"  
-    ">⚡ Fast. Smart. Legendary.\n\n"
-    ">Made for Legends, by Legends.\n\n"
-    ">If you have any query or need guide click the button below❤‍🔥❤‍🔥❤‍🔥"
+    else:
+        start_msg = ">✨ 𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 ✨\n\n"  
+        f"Welcome To The  𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 [𝙲𝙾𝙻-𝙓•忍者] {message.from_user.first_name}\n\n"
+        "Your Smart Order + AI Bot is Here!\n\n"
+        "🔹 Use /order – Place your custom order in seconds\n"  
+        "🔹 Use /track – Track your order status anytime\n" 
+        "🔹 Use /ai – Ask anything, get instant AI-powered replies\n" 
+        "🔹 Use /help – Explore all features\n\n"  
+        ">⚡ Fast. Smart. Legendary.\n\n"
+        ">Made for Legends, by Legends.\n\n"
+        ">If you have any query or need guide click the button below❤‍🔥❤‍🔥❤‍🔥"
 
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("gυι∂є📕", url="https://t.me/RaijinCodes_Ultra")]
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("gυι∂є📕", url="https://t.me/RaijinCodes_Ultra")]
     ]) 
-    
-    
-    await message.reply_text(start_msg, reply_markup=keyboard) 
+        
+        await message.reply_text(start_msg, reply_markup=keyboard) 
