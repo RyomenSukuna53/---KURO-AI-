@@ -5,7 +5,7 @@ import asyncio
 from KuroAI import *
 from KuroAI import logs, gpt
 from KuroAI.KUROMAIN.COMMAND import *
-
+from KuroAI.KUROMAIN.COMMAND import report 
 
 
 
