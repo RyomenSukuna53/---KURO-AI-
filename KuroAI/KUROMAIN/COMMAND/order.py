@@ -60,6 +60,9 @@ async def handle_order_step(_, message: Message):
             if budget < 100:
                 await message.reply("❌ Minimum budget is ₹100.\n\nPlease enter a higher amount.")
                 return
+            elif budget > 10000:
+                await message.reply("❌ Maximum budget is ₹10000.\n\nPlease enter a lower amount.") 
+                return 
             state["budget"] = budget
             state["step"] = "extra"
             await message.reply("✉️ Any extra information you'd like to add?\n\nSend `/skip` to skip this step.")
