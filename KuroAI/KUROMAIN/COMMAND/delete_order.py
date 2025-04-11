@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import *
-from config import HANDLERS 
+from KuroAI import HANDLERS 
 
 
 
