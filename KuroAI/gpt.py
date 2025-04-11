@@ -3,7 +3,7 @@ from pyrogram import filters, Client
 from pyrogram.types import Message
 from KuroAI import KuroAI as app
 from config import OWNER_ID
-from KuroAI import HANDLER, MY_VERSION
+from KuroAI import HANDLERS, MY_VERSION
 from datetime import datetime
 import json
 
@@ -32,7 +32,7 @@ async def fetch_data(query: str, message: Message) -> str:
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-@app.on_message(filters.command(["KuroAI", "RajinAI"], prefixes=HANDLER) & filters.user(OWNER_ID))
+@app.on_message(filters.command("ai", prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def chatgpt(_: Client, message: Message):
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("Please provide a query.")
