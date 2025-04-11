@@ -34,18 +34,19 @@ async def start_command(client, message):
 
     else:
         start_msg = ">✨ 𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 ✨\n\n"  
-        f"Welcome To The  𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 [𝙲𝙾𝙻-𝙓•忍者] {message.from_user.first_name}\n\n"
-        "Your Smart Order + AI Bot is Here!\n\n"
-        "🔹 Use /order – Place your custom order in seconds\n"  
-        "🔹 Use /track – Track your order status anytime\n" 
-        "🔹 Use /ai – Ask anything, get instant AI-powered replies\n" 
-        "🔹 Use /help – Explore all features\n\n"  
-        ">⚡ Fast. Smart. Legendary.\n\n"
-        ">Made for Legends, by Legends.\n\n"
-        ">If you have any query or need guide click the button below❤‍🔥❤‍🔥❤‍🔥"
+        start_msg += f"Welcome To The  𝙲𝙾𝙳𝙴𝚂 𝙾𝙵 𝗟𝗘𝗚𝗘𝗡𝗗𝗦 | 伝説 [𝙲𝙾𝙻-𝙓•忍者] {message.from_user.first_name}\n\n"
+        start_msg += "Your Smart Order + AI Bot is Here!\n\n"
+        start_msg += "🔹 Use /order – Place your custom order in seconds\n"  
+        start_msg += "🔹 Use /track – Track your order status anytime\n" 
+        start_msg += "🔹 Use /ai – Ask anything, get instant AI-powered replies\n" 
+        start_msg += "🔹 Use /help – Explore all features\n\n"  
+        start_msg += ">⚡ Fast. Smart. Legendary.\n\n"
+        start_msg += ">Made for Legends, by Legends.\n\n"
+        start_msg += ">If you have any query or need guide click the button below❤‍🔥❤‍🔥❤‍🔥"
 
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("gυι∂є📕", url="https://t.me/RaijinCodes_Ultra")]
+            [InlineKeyboardButton("συя ωєвѕιтє", url="https://codesoflegends53.netlify.app/")], 
+            [InlineKeyboardButton("gυι∂є", url="https://codesoflegends53.netlify.app/kuroai/website/guide")]
     ]) 
         
-        await message.reply_text(start_msg, reply_markup=keyboard) 
+        await message.reply_text(start_msg, reply_markup=keyboard, parse_mode=ParseMode.MARKDOWN) 
