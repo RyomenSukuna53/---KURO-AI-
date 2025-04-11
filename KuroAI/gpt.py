@@ -41,6 +41,7 @@ async def fetch_data(query: str, message: Message) -> str:
 
 @app.on_message(filters.command("ai", prefixes=HANDLERS), group=5)
 async def chatgpt(_: Client, message: Message):
+    await message.reply_text("hi")
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("Please provide a query.")
     query = " ".join(message.command[1:]) or '?'
