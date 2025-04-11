@@ -37,7 +37,7 @@ async def send_msg_to_user(_, message):
         )
 
     try:
-        await KuroAI.send_message(chat_id=int(reciever), text=query)
+        await KuroAI.send_message(chat_id=int(reciever), text=f"✉️ Message from {message.from_user.first_name}\n{query}")
         await message.reply_text(
             f"✅ **Message sent successfully!**\n\n"
             f"**Recipient:** `{reciever}`\n"
