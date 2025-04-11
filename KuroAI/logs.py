@@ -5,7 +5,7 @@ import traceback
 from datetime import datetime
 from contextlib import redirect_stdout
 from subprocess import getoutput as run
-from pyrogram.enums import ChatAction
+from pyrogram.enums import ChatAction, ParseMode
 from KuroAI import KuroAI as app
 from pyrogram import filters
 from config import *
@@ -89,7 +89,7 @@ async def eval(client, message):
             out_file.name = "eval_output.txt"
             await reply_to_.reply_document(document=out_file, caption="Eval Output")
     else:
-        await status_message.edit_text(final_output)
+        await status_message.edit_text(f"```shell\n\n{final_output}```", parse_mode=ParseMode.MARKDOWN)
 
 
 @app.on_message(filters.command(["log", "logs"], prefix) & filters.user(SUDO_USERS))
@@ -99,7 +99,7 @@ async def logs(app, message):
     """
     try:
         run_logs = run("tail -n 20 logs.txt")  # Fetch the last 20 lines of logs
-        await message.reply_text(f"📒 **Latest Logs:**\n`{run_logs}`")
+        await message.reply_text(f"📒 **Latest Logs:**\n```shell\n\n{run_logs}```", parse_mode=ParseMode.MARKDOWN)
     except Exception as e:
         await message.reply_text(f"Error fetching logs:\n`{e}`")
 
