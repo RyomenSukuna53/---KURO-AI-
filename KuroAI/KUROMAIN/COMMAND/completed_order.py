@@ -19,7 +19,7 @@ async def order_completed(_, message: Message):
         await message.reply_text("❌ Invalid user ID.", parse_mode=ParseMode.MARKDOWN)
         return
 
-    order = completed_col.find_one({"_id": user_id, "status": "approved"})
+    order = await completed_col.find_one({"_id": user_id, "status": "approved"})
     if not order:
         await message.reply_text("❌ Order not found or not approved.")
         return
