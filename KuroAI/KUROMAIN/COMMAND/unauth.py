@@ -1,7 +1,8 @@
 from KuroAI import KuroAI as bot
 from KuroAI.KUROMAIN.DATABASE import auth_col
 from pyrogram import filters
-from config import OWNER_ID, HANDLERS
+from config import OWNER_ID 
+from KuroAI import HANDLERS
 from pyrogram.enums import ParseMode
 import asyncio
 
