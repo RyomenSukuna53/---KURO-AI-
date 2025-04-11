@@ -39,3 +39,4 @@ async def delete_single_order(_, message: Message):
     )
 
 
+    await completed_col.delete_one({"order_id": order_id}) 
