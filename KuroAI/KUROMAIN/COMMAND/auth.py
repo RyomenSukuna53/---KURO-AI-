@@ -38,7 +38,7 @@ async def authorize_user(client, message):
     )
 
     for bar in bars[1:]:
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
         await msg.edit_text(f"```shell\n[𝗞𝗨𝗥𝗢-𝗫𝗔𝗜] ==> Authorizing {user_id}...\n{bar}```", parse_mode=ParseMode.MARKDOWN)
 
     await auth_col.insert_one({"_id": user_id})
