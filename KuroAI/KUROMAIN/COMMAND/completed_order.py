@@ -43,6 +43,7 @@ async def all_orders(_, message: Message):
         count += 1
         text += (
             f"**#{count}**\n"
+            f"**ID:** {order.get('order_id') }\n"
             f"**Bot Name:** {order.get('bot_name')}\n"
             f"**Type:** {order.get('bot_type')}\n"
             f"**Budget:** ₹{order.get('budget')}\n"
