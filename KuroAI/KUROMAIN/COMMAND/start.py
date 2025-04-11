@@ -47,5 +47,5 @@ async def start_command(client, message):
         [InlineKeyboardButton("gυι∂є📕", url="https://t.me/RaijinCodes_Ultra")]
     ]) 
     
-    else:
-        await message.reply_text(start_msg, reply_markup=keyboard) 
+    
+    await message.reply_text(start_msg, reply_markup=keyboard) 
