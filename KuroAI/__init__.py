@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler('logs.txt'
 LOGGER = logging.getLogger(__name__)
 
 HANDLERS = [".", "!", "/", "#", "$", "%", "&", "*", "?"]
-MY_VERSION = 1.5.30
+MY_VERSION = "1.0.00"
 
 #IF USER DON'T GET ANY OF THESE THINGS IN ENVIRONNEMENT
 if not (API_ID, API_HASH, TOKEN):
