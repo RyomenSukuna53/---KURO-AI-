@@ -123,7 +123,6 @@ async def handle_order_decision(_, query):
         await query.message.edit_text("✅ Order approved.")
 
     elif action == "reject":
-        await completed_col.insert_one({"_id": user_id, "status": "rejected"})
         await bot.send_message(user_id, "❌ Your bot order has been **rejected.** Contact admin for more info.")
         await query.message.edit_text("❌ Order rejected.")
 
