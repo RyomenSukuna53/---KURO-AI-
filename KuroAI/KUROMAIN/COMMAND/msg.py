@@ -5,7 +5,7 @@ from pyrogram.enums import ParseMode
 from KuroAI.KUROMAIN.DATABASE import auth_col
 
 
-@KuroAI.on_message(filters.command("msg", prefixes=HANDLERS) & filters.private & filters.user(SUDO_USERS))
+@KuroAI.on_message(filters.command("msg", prefixes=HANDLERS) & filters.user(SUDO_USERS))
 async def send_msg_to_user(_, message):
     if len(message.command) < 3:
         return await message.reply_text(
