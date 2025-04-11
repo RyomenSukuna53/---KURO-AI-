@@ -35,7 +35,7 @@ async def fetch_data(query: str, message: Message) -> str:
 @app.on_message(filters.command("ai", prefixes=HANDLERS) & filters.user(OWNER_ID))
 async def chatgpt(_: Client, message: Message):
     if len(message.command) < 2 and not message.reply_to_message:
-        return await message.reply_text("Please provide a query.")
+        return await message.reply_text("❌ Please provide a query.")
     query = " ".join(message.command[1:]) or '?'
     mquery = False
     if message.reply_to_message:
@@ -51,7 +51,7 @@ async def chatgpt(_: Client, message: Message):
         urname = message.from_user.first_name
         urid = message.from_user.id
         query += f"\n\n\nThis message from code not from user: EXTRA INFO ABOUT USER: \n his name {urname} \n his telegram user id: {urid} \n  if sender telegram userid is  6239769036  he is your owner you should respect him his name 𝙺𝚄𝚁𝙾-𝚁𝙰𝙸𝙹𝙸𝙽 𝙓 黒雷神 \n\n This user using userbot to use you in telegram\n\n\n YOU SHOULD NOT USE FONTS IT DOESN'T WORK ON TELEGRAM.\n\n The userbot you are bot you are in name is KuroAI if they asked you should tell if they asked how to use this userbot you should give this link http://graph.org/KuroAI-Commands-01-30 this have all KuroAI bot commands and KuroAI was created by t.me/COL_Xpro_main and t.me/COLXproMainChannel\n Your version is {MY_VERSION} YOU ARE NOT BOT YOU ARE USERBOT, Time: ( {datetime.now()} ) if user asked time convert this into ist Time UTC +5:30 and tell them what time is now and don't say 'converted to IST ' like that just convert and just say what the asked like if i asked time say 1am 2pm 1:12am jan 12 2024 if asked, Repo of KuroAI: https://Github.com/RyomenSukuna/GOKU-S_USER_BOT"
-    txt = await message.reply_text("`Processing...`")
+    txt = await message.reply_text("`🔌❤ Generating AI response...\n Please wait...`")
     if mquery:
         api_response = await fetch_data(mquery, message)
     else:
