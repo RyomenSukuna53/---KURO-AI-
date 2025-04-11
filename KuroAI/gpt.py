@@ -70,8 +70,11 @@ async def kuro_ai(_: Client, message: Message):
             f"• Queried By: {urname} | ID: {urid}\n\n"
         )
 
-        if urid == 6239769036:
+        if urid == OWNER_ID:
             reply_data += "• Special User Detected: 𝙺𝚄𝚁𝙾-𝚁𝙰𝙸𝙹𝙸𝙽 𝙓 黒雷神 — Respect granted.\n\n"
+
+
+
 
     sys_info = (
         f"\n\n[ 𝗞𝗨𝗥𝗢-𝗔𝗜 𝗦𝗬𝗦𝗧𝗘𝗠 ]\n"
