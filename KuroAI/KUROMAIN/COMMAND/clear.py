@@ -1,7 +1,7 @@
 from KuroAI import KuroAI as bot 
 from KuroAI import HANDLERS 
 from config import * 
-from pyrogram import Cleint, filters 
+from pyrogram import Client, filters 
 from KuroAI.KUROMAIN.DATABASE import *
 
 
