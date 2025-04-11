@@ -1,15 +1,13 @@
 import aiohttp
 from pyrogram import filters, Client
-from pyrogram.types import Message
-from KuroAI.__init__ import KuroAI as app
-from config import OWNER_ID
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from KuroAI import KuroAI as app
+from config import OWNER_ID, SUPPORT_CHAT, SUPPORT_CHANNEL
 from KuroAI import HANDLERS
 from datetime import datetime
-import json 
 from KuroAI.KUROMAIN.DATABASE import auth_col
 
-
-MY_VERSION = 1.0
+MY_VERSION = "1.0"
 
 async def fetch_data(query: str, message: Message) -> str:
     try:
@@ -34,50 +32,67 @@ async def fetch_data(query: str, message: Message) -> str:
             async with session.post(url, headers=headers, json=data) as response:
                 return await response.text()
     except Exception as e:
-        return f"An error occurred: {str(e)}"
-        
-
-
+        return f"⚠️ Error: `{str(e)}`"
 
 @app.on_message(filters.command("ai", prefixes=HANDLERS), group=5)
-async def chatgpt(_: Client, message: Message):
-    await message.reply_text("hi")
-    if len(message.command) < 2 and not message.reply_to_message:
-        return await message.reply_text("Please provide a query.")
-    query = " ".join(message.command[1:]) or '?'
-    mquery = False
+async def kuro_ai(_: Client, message: Message):
+    user_id = message.from_user.id
 
-    if not auth_col.find_one({"_id": user_id}):
-        await message.reply(
-            "**Need Authorization to use this bot.**\n\nJoin both group & channel and try again.",
+    if not await auth_col.find_one({"_id": user_id}):
+        return await message.reply(
+            "**⛔ Authorization Required!**\n\nJoin both the support channel & group to access the AI.",
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("ʝσιη ¢нαηηєℓ", url=f"https://t.me/{SUPPORT_CHANNEL}")],
-                [InlineKeyboardButton("ʝσιη gяσυρ", url=f"https://t.me/{SUPPORT_CHAT}")]
+                [InlineKeyboardButton("🧬 Join Channel", url=f"https://t.me/{SUPPORT_CHANNEL}")],
+                [InlineKeyboardButton("🧠 Join Group", url=f"https://t.me/{SUPPORT_CHAT}")]
             ])
         )
-        return
-    
-    elif message.reply_to_message:
-        rname = message.reply_to_message.from_user.first_name
-        is_bot = message.reply_to_message.from_user.is_bot
-        urname = message.from_user.first_name
-        urid = message.from_user.id
-        rid = message.reply_to_message.from_user.id
-        if message.reply_to_message.text:
-            mquery = f"The replied message you see is the user replied msg he asking something about that thing so you should act like he asking about that reply to you if he doesn't ask about that reply you shouldnt talk about that\n\n\nuser replied msg: {message.reply_to_message.text}\n\nUser message: {query}"
-            mquery += f"\n\nADDITIONAL INFORMATION:\n Reply user name: {rname}\n is replied user is bot: {is_bot} ( if he asked replied user is bot or not you should answer by this if its false its not bot its true it is bot )\n Replied user telegram id {rid} \n Sender name: {urname}\nSender tg userid: {urid}\n if sender telegram userid is  6239769036  he is your owner you should respect him his name 𝙺𝚄𝚁𝙾-𝚁𝙰𝙸𝙹𝙸𝙽 𝙓 黒雷神 \n\n This user using userbot to use you in telegram\n\n\n YOU SHOULD NOT USE FONTS IT DOESN'T WORK ON TELEGRAM.\n\n The userbot you are bot you are in name is KuroAI if they asked you should tell if they asked how to use this userbot you should give this link http://graph.org/KuroAI-Commands-01-30 this have all KuroAI bot commands and KuroAI was created by t.me/COLXproMainChannel and t.me/COL_Xpro_main\n Your version is 1 your version 1 release date is 25 MARCH 2025, YOU ARE NOT BOT YOU ARE USERBOT, Time: ( {datetime.now()} ) if user asked time convert this into ist Time UTC +5:30 and tell them what time is now and don't say 'converted to IST ' like that just convert and just say what the asked like if i asked time say 1am 2pm 1:12am MARCH 25 2025 if asked, Repo of KuroAI: https://Github.com/RyomenSukuna53/GOKU-S_USER_BOT"
-    else:
-        urname = message.from_user.first_name
-        urid = message.from_user.id
-        query += f"\n\n\nThis message from code not from user: EXTRA INFO ABOUT USER: \n his name {urname} \n his telegram user id: {urid} \n  if sender telegram userid is  6239769036  he is your owner you should respect him his name 𝙺𝚄𝚁𝙾-𝚁𝙰𝙸𝙹𝙸𝙽 𝙓 黒雷神 \n\n This user using userbot to use you in telegram\n\n\n YOU SHOULD NOT USE FONTS IT DOESN'T WORK ON TELEGRAM.\n\n The userbot you are bot you are in name is KuroAI if they asked you should tell if they asked how to use this userbot you should give this link http://graph.org/KuroAI-Commands-01-30 this have all KuroAI bot commands and KuroAI was created by t.me/COL_Xpro_main and t.me/COLXproMainChannel\n Your version is {MY_VERSION} YOU ARE NOT BOT YOU ARE USERBOT, Time: ( {datetime.now()} ) if user asked time convert this into ist Time UTC +5:30 and tell them what time is now and don't say 'converted to IST ' like that just convert and just say what the asked like if i asked time say 1am 2pm 1:12am jan 12 2024 if asked, Repo of KuroAI: https://Github.com/RyomenSukuna/GOKU-S_USER_BOT"
-    txt = await message.reply_text("`Processing...`")
-    if mquery:
-        api_response = await fetch_data(mquery, message)
-    else:
-        api_response = await fetch_data(query, message)
-    await txt.edit(api_response)
 
-MOD_NAME = 'Gpt'
-MOD_HELP = ".gpt <query> - To ask the query to gpt"
+    if len(message.command) < 2 and not message.reply_to_message:
+        return await message.reply("❓ Please provide a query or reply to a message.")
 
+    query = " ".join(message.command[1:]).strip()
+    reply_data = ""
+    urname = message.from_user.first_name
+    urid = message.from_user.id
 
+    if message.reply_to_message:
+        replied = message.reply_to_message
+        rname = replied.from_user.first_name
+        rid = replied.from_user.id
+        is_bot = replied.from_user.is_bot
+        rmsg = replied.text or "No text available"
+
+        reply_data = (
+            f"— Replied Message Context —\n"
+            f"• Message: {rmsg}\n"
+            f"• User: {rname} | ID: {rid}\n"
+            f"• Bot: {is_bot}\n"
+            f"• Queried By: {urname} | ID: {urid}\n\n"
+        )
+
+        if urid == 6239769036:
+            reply_data += "• Special User Detected: 𝙺𝚄𝚁𝙾-𝚁𝙰𝙸𝙹𝙸𝙽 𝙓 黒雷神 — Respect granted.\n\n"
+
+    sys_info = (
+        f"\n\n[ 𝗞𝗨𝗥𝗢-𝗔𝗜 𝗦𝗬𝗦𝗧𝗘𝗠 ]\n"
+        f"• User: {urname}\n"
+        f"• ID: {urid}\n"
+        f"• Version: {MY_VERSION}\n"
+        f"• Time: {datetime.now().strftime('%B %d %Y, %I:%M %p')}\n"
+        f"• Repo: github.com/RyomenSukuna53/GOKU-S_USER_BOT\n"
+        f"• Commands: graph.org/KuroAI-Commands-01-30\n"
+        f"• Note: You’re a UserBot, not a regular bot.\n"
+        f"• Tip: Telegram does not support custom fonts.\n"
+    )
+
+    full_query = f"{reply_data}User Query: {query}{sys_info}"
+
+    processing = await message.reply("`🧠 Generating AI response... Please wait.`")
+    response = await fetch_data(full_query, message)
+    await processing.edit(response, disable_web_page_preview=True)
+
+MOD_NAME = "Gpt"
+MOD_HELP = """
+• `.ai <query>` — Ask anything from GPT
+• `.reply .ai <query>` — Ask based on replied message
+"""
