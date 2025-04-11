@@ -16,15 +16,15 @@ async def start_order(_, message: Message):
     pending = await completed_col.find_one({"_id": user_id})
 
     if not auth_user:
-        await message.reply_text("❌ You are not authorized to place an order.")
+        await message.reply_text("⛔ Access Denied!\n\nOnly authorized users can place an order.")
         return
 
     if pending:
-        await message.reply_text("SAX 🎷🎷🎷\nYOU CAN ONLY PLACE ONE ORDER AT A TIME\nWAIT UNTIL IT'S COMPLETED.")
+        await message.reply_text("⚠️ One Order at a Time!\n\nYou already have a pending order. Wait until it's completed.")
         return
 
     user_states[user_id] = {"step": "name", "user_id": user_id}
-    await message.reply("Enter your bot name:")
+    await message.reply("📦 Let's Build Your Bot!\n\nEnter your **Bot Name** to get started:")
 
 @bot.on_message(filters.text & filters.private & ~filters.command(["order"], prefixes=HANDLERS))
 async def handle_order_step(_, message: Message):
@@ -37,34 +37,34 @@ async def handle_order_step(_, message: Message):
     if state["step"] == "name":
         state["bot_name"] = message.text
         state["step"] = "type"
-        await message.reply("Enter bot type (e.g., Music, Game, AI):")
+        await message.reply("🤖 What type of bot is this?\n\n(Example: Music, Game, AI)")
 
     elif state["step"] == "type":
         state["bot_type"] = message.text
         state["step"] = "function"
-        await message.reply("What is the main function of your bot?")
+        await message.reply("⚙️ What is the core purpose of your bot?")
 
     elif state["step"] == "function":
         state["bot_function"] = message.text
         state["step"] = "commands"
-        await message.reply("What commands do you want in your bot?\n(Send a list or comma-separated)")
+        await message.reply("🧩 List the commands you'd like in your bot.\n\n(You can send comma-separated commands or a list.)")
 
     elif state["step"] == "commands":
         state["bot_commands"] = message.text
         state["step"] = "budget"
-        await message.reply("Enter your budget in ₹:")
+        await message.reply("💰 What’s your budget? (in ₹)")
 
     elif state["step"] == "budget":
         try:
             budget = int(message.text)
             if budget < 100:
-                await message.reply("❌ WE CAN'T TAKE ORDERS BELOW ₹100. TRY AGAIN.")
+                await message.reply("❌ Minimum budget is ₹100.\n\nPlease enter a higher amount.")
                 return
             state["budget"] = budget
             state["step"] = "extra"
-            await message.reply("Any extra info? Send `/skip` to skip.")
+            await message.reply("✉️ Any extra information you'd like to add?\n\nSend `/skip` to skip this step.")
         except ValueError:
-            await message.reply("❌ Please enter a valid number for the budget.")
+            await message.reply("⚠️ Please enter a **valid number** for the budget.")
             return
 
     elif state["step"] == "extra":
@@ -72,16 +72,16 @@ async def handle_order_step(_, message: Message):
         state["step"] = "confirm"
 
         text = (
-            f"**Please confirm your order:**\n\n"
-            f"**Bot Name:** {state['bot_name']}\n"
-            f"**Bot Type:** {state['bot_type']}\n"
-            f"**Function:** {state['bot_function']}\n"
-            f"**Commands:** {state['bot_commands']}\n"
-            f"**Budget:** ₹{state['budget']}\n"
-            f"**Extra Info:** {state['extra']}\n\n"
-            "**Type `confirm` to send or `cancel` to discard.**"
+            f"✅ **Confirm Your Order**\n\n"
+            f"• **Bot Name:** `{state['bot_name']}`\n"
+            f"• **Type:** `{state['bot_type']}`\n"
+            f"• **Function:** `{state['bot_function']}`\n"
+            f"• **Commands:** `{state['bot_commands']}`\n"
+            f"• **Budget:** ₹{state['budget']}\n"
+            f"• **Extra:** `{state['extra']}`\n\n"
+            f"Reply with `confirm` to place your order or `cancel` to discard it."
         )
-        await message.reply(text)
+        await message.reply(text, parse_mode=ParseMode.MARKDOWN)
 
     elif state["step"] == "confirm":
         if message.text.lower() == "confirm":
@@ -100,18 +100,18 @@ async def handle_order_step(_, message: Message):
             await order_col.insert_one(order_data)
             await pending_col.insert_one(order_data)
 
-            await message.reply("✅ Your order has been sent for admin review.")
+            await message.reply("✅ Your order has been submitted for admin review!")
 
             await bot.send_message(
                 OWNER_ID,
-                f"📬 **New Order Request**\n\n"
-                f"👤 User: [{message.from_user.first_name}](tg://user?id={user_id})\n"
-                f"**Bot Name:** {state['bot_name']}\n"
-                f"**Type:** {state['bot_type']}\n"
-                f"**Function:** {state['bot_function']}\n"
-                f"**Commands:** {state['bot_commands']}\n"
-                f"**Budget:** ₹{state['budget']}\n"
-                f"**Extra:** {state['extra']}",
+                f"📩 **New Bot Order Received**\n\n"
+                f"👤 **User:** [{message.from_user.first_name}](tg://user?id={user_id})\n"
+                f"• **Bot Name:** `{state['bot_name']}`\n"
+                f"• **Type:** `{state['bot_type']}`\n"
+                f"• **Function:** `{state['bot_function']}`\n"
+                f"• **Commands:** `{state['bot_commands']}`\n"
+                f"• **Budget:** ₹{state['budget']}\n"
+                f"• **Extra:** `{state['extra']}`",
                 reply_markup=InlineKeyboardMarkup([
                     [
                         InlineKeyboardButton("✅ Approve", callback_data=f"approve_{user_id}"),
@@ -125,17 +125,17 @@ async def handle_order_step(_, message: Message):
 
         elif message.text.lower() == "cancel":
             del user_states[user_id]
-            await message.reply("❌ Order cancelled.")
+            await message.reply("❌ Your order has been **cancelled**.")
 
 @bot.on_callback_query(filters.regex(r"^(approve|reject)_(\d+)$") & filters.user(SUDO_USERS))
 async def handle_order_decision(_, query):
     action, user_id = query.data.split("_")
     user_id = int(user_id)
     order_id = random.randint(1000, 9999)
-
     order = await pending_col.find_one({"user_id": user_id})
+
     if not order:
-        await query.message.edit_text("❗ Order not found or already processed.")
+        await query.message.edit_text("❗ Order already processed or not found.")
         return
 
     if action == "approve":
@@ -151,14 +151,11 @@ async def handle_order_decision(_, query):
             "extra": order["extra"]
         }
         await completed_col.insert_one(completed_data)
-        await bot.send_message(user_id, "✅ Your bot order has been **approved!** We'll contact you soon.")
-        await query.message.edit_text("✅ Order approved.")
+        await bot.send_message(user_id, "✅ Your bot order has been **approved!** Our team will contact you soon.")
+        await query.message.edit_text("✅ Order has been **approved.**")
 
     elif action == "reject":
-        await bot.send_message(user_id, "❌ Your bot order has been **rejected.** Contact admin for more info.")
-        await query.message.edit_text("❌ Order rejected.")
+        await bot.send_message(user_id, "❌ Your bot order has been **rejected.** Reach out to support for more details.")
+        await query.message.edit_text("❌ Order has been **rejected.**")
 
     await pending_col.delete_one({"user_id": user_id})
-
-
-
