@@ -5,3 +5,4 @@ requests
 asyncio
 motor
 pymongo[srv]
+browser-cookie3
