@@ -10,7 +10,7 @@ async def report_to_admins(KuroAI, message):
     user = message.from_user
 
     try:
-        is_authorized = await auth_col.find_one({"user_id": user_id})
+        is_authorized = auth_col.find_one({"user_id": user_id})
         if not is_authorized:
             await message.reply_text(
                 "⛔️ Access Denied!\n\n"
