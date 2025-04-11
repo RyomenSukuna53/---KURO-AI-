@@ -14,8 +14,7 @@ async def report_to_admins(KuroAI, message):
         if not is_authorized:
             await message.reply_text(
                 "⛔️ Access Denied!\n\n"
-                "You're not authorized to use this feature.",
-                quote=True
+                "You're not authorized to use this feature."
             )
             return
 
