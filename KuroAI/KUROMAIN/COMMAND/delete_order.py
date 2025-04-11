@@ -4,6 +4,9 @@ from pyrogram import Client, filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import *
+from config import HANDLERS 
+
+
 
 @KuroAI.on_message(filters.command("del_order", prefixes=HANDLERS) & filters.user(SUDO_USERS))
 async def delete_orders(client, message):
