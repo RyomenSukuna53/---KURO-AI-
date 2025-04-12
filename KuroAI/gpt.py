@@ -32,7 +32,7 @@ async def fetch_data(query: str, message: Message) -> str:
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-@app.on_message(filters.command("ai", prefixes=HANDLERS) & filters.user(OWNER_ID))
+@app.on_message(filters.command("ai"))
 async def chatgpt(_: Client, message: Message):
     if len(message.command) < 2 and not message.reply_to_message:
         return await message.reply_text("❌ Please provide a query.")
